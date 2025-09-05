@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Suraksha</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            @apply bg-gray-900 text-gray-100;
+        }
+        .section {
+            @apply p-8 md:p-12 min-h-screen flex items-center justify-center flex-col;
+        }
+        .card {
+            @apply bg-gray-800 p-6 md:p-10 rounded-3xl shadow-lg border border-gray-700 transition-transform duration-300 hover:scale-[1.01];
+        }
+        .section-header {
+            @apply text-3xl md:text-5xl font-extrabold text-center text-indigo-400 mb-6 md:mb-8;
+        }
+        .list-item {
+            @apply flex items-center p-4 bg-gray-700 rounded-lg shadow-sm border border-gray-600 mb-3 transition-colors hover:bg-gray-600;
+        }
+        .chat-container {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        .chat-container::-webkit-scrollbar { width: 8px; }
+        .chat-container::-webkit-scrollbar-thumb { background-color: #4b5563; border-radius: 4px; }
+        .chat-container::-webkit-scrollbar-track { background-color: #1f2937; }
+        #chat-toggle-btn {
+            @apply fixed bottom-4 right-4 z-50 p-4 rounded-full shadow-lg bg-indigo-600 text-white cursor-pointer transition-transform duration-300 hover:scale-110 active:scale-95;
+        }
+        #chat-modal {
+            @apply fixed bottom-20 right-4 z-40 w-11/12 max-w-sm h-[70vh] max-h-[600px] bg-gray-800 rounded-3xl shadow-2xl border border-gray-700 flex flex-col transition-all duration-500 transform scale-0 opacity-0 origin-bottom-right;
+        }
+        #chat-modal.active {
+            @apply scale-100 opacity-100;
+        }
+        #certificate-container {
+            @apply hidden bg-gray-900 p-8 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center;
+            min-height: 500px;
+        }
+        #certificate {
+            background: linear-gradient(135deg, #1f2937, #374151);
+            @apply text-white p-12 rounded-xl border-4 border-yellow-400 shadow-2xl;
+        }
+        .certificate-ribbon {
+            background-color: #eab308;
+            height: 10px;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body class="bg-gray-900">
+
+    <!-- Fixed Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full bg-gray-800/80 backdrop-blur-md z-50 shadow-lg">
+        <div class="container mx-auto px-6 py-4 flex flex-wrap justify-center md:justify-between items-center text-sm md:text-base">
+            <a href="#" class="text-2xl font-bold text-indigo-400" onclick="showSection('home')">Suraksha</a>
+            <div class="flex flex-wrap justify-center gap-2 mt-4 md:mt-0">
+                <a href="#" class="nav-link text-gray-300 px-4 py-2 rounded-full transition-all duration-300 hover:bg-indigo-600 hover:text-white hover:scale-105 hover:shadow-lg" data-target="home">Home</a>
+                <a href="#" class="nav-link text-gray-300 px-4 py-2 rounded-full transition-all duration-300 hover:bg-indigo-600 hover:text-white hover:scale-105 hover:shadow-lg" data-target="signs">Signs</a>
+                <a href="#" class="nav-link text-gray-300 px-4 py-2 rounded-full transition-all duration-300 hover:bg-indigo-600 hover:text-white hover:scale-105 hover:shadow-lg" data-target="emergency">Emergency</a>
+                <a href="#" class="nav-link text-gray-300 px-4 py-2 rounded-full transition-all duration-300 hover:bg-indigo-600 hover:text-white hover:scale-105 hover:shadow-lg" data-target="emergency-kit">Emergency Kit</a>
+                <a href="#" class="nav-link text-gray-300 px-4 py-2 rounded-full transition-all duration-300 hover:bg-indigo-600 hover:text-white hover:scale-105 hover:shadow-lg" data-target="past-incidents">Past Incidents</a>
+                <a href="#" class="nav-link text-gray-300 px-4 py-2 rounded-full transition-all duration-300 hover:bg-indigo-600 hover:text-white hover:scale-105 hover:shadow-lg" data-target="quiz">Quiz</a>
+                <a href="#" class="nav-link text-gray-300 px-4 py-2 rounded-full transition-all duration-300 hover:bg-indigo-600 hover:text-white hover:scale-105 hover:shadow-lg" data-target="contacts">Contacts</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 pt-24">
+        
+        <!-- Home Section -->
+        <section id="home" class="section">
+            <header class="text-center mb-16 md:mb-24">
+                <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-4 text-white">Welcome to Project Suraksha</h1>
+                <p class="text-lg md:text-2xl font-medium max-w-3xl mx-auto text-gray-400">Your ultimate guide to disaster preparedness and responsive education.</p>
+            </header>
+
+            <!-- PM Modi's Guidelines Section -->
+            <div id="pm-guidelines" class="card mb-24 md:mb-36">
+                <div class="flex flex-col lg:flex-row items-center gap-8">
+                    <div class="w-full lg:w-1/3 flex-shrink-0 text-center">
+                        
+                    </div>
+                    <div class="w-full lg:w-2/3">
+                        <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-indigo-400 lg:text-left text-center">A Vision for a Prepared Nation</h2>
+                        <blockquote class="text-lg leading-relaxed text-gray-300 italic">
+                            "A proactive approach to disaster management, guided by the mantra of 'zero casualty' and 'saving every life', is the foundation of a resilient India. Preparedness is the key to minimizing loss and ensuring a swift and effective response during any calamity."
+                        </blockquote>
+                        <p class="mt-4 text-gray-300 font-medium">
+                            Inspired by the vision of our Hon'ble Prime Minister, Shri Narendra Modi, this platform is dedicated to promoting a culture of preparedness. He has consistently emphasized the importance of a holistic approach to disaster management, focusing on early warning systems, capacity building, and community-level participation. His guidelines serve as our guiding principles in developing this responsive education system.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Human Cost of Disasters -->
+            <div class="card">
+                <h2 class="section-header text-red-400">The Human Cost of Disasters</h2>
+                <p class="text-lg leading-relaxed text-center max-w-4xl mx-auto mb-8 text-gray-300">
+                    Natural disasters and calamities leave a profound and lasting impact on communities, affecting lives, livelihoods, and psychological well-being. From the loss of homes to the disruption of education, the ripple effects are immense. The ability to recover depends heavily on our level of preparedness and understanding of the risks we face.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="p-6 bg-gray-700 rounded-2xl border border-gray-600 shadow-lg">
+                        <i class="fas fa-house-damage text-5xl text-red-500 mb-4"></i>
+                        <h3 class="font-bold text-xl mb-2 text-white">Loss of Homes</h3>
+                        <p class="text-gray-400">A single disaster can displace millions, leaving families without shelter and security.</p>
+                    </div>
+                    <div class="p-6 bg-gray-700 rounded-2xl border border-gray-600 shadow-lg">
+                        <i class="fas fa-school-lock text-5xl text-yellow-500 mb-4"></i>
+                        <h3 class="font-bold text-xl mb-2 text-white">Interruption of Education</h3>
+                        <p class="text-gray-400">Schools are often destroyed or repurposed as shelters, halting learning and affecting the futures of young minds.</p>
+                    </div>
+                    <div class="p-6 bg-gray-700 rounded-2xl border border-gray-600 shadow-lg">
+                        <i class="fas fa-heart-crack text-5xl text-blue-500 mb-4"></i>
+                        <h3 class="font-bold text-xl mb-2 text-white">Psychological Trauma</h3>
+                        <p class="text-gray-400">The emotional scars from witnessing a disaster can be profound and long-lasting, requiring extensive support.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Awareness Section -->
+            <div class="card bg-gray-800 mt-24">
+                <h2 class="section-header text-indigo-400">Building a Culture of Preparedness</h2>
+                <p class="text-lg leading-relaxed text-center max-w-4xl mx-auto mb-8 text-gray-300">
+                    Project Suraksha was created to address the critical need for a structured disaster education system. This platform helps students and educators by providing a centralized hub of knowledge, interactive tools, and actionable steps.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 bg-indigo-700 text-indigo-200 rounded-full flex items-center justify-center mb-4 shadow-inner">
+                            <i class="fas fa-book-open text-3xl"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2 text-white">Why for Schools & Colleges?</h3>
+                        <p class="text-gray-400">Educational institutions are hubs of our future. Equipping students and staff with life-saving skills is crucial for minimizing casualties and ensuring community safety.</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 bg-indigo-700 text-indigo-200 rounded-full flex items-center justify-center mb-4 shadow-inner">
+                            <i class="fas fa-handshake text-3xl"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2 text-white">How It Helps</h3>
+                        <p class="text-gray-400">Our platform provides practical knowledge, including mock drills, emergency kit checklists, and a smart chatbot to answer questions in real-time. It transforms passive learning into active preparation.</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 bg-indigo-700 text-indigo-200 rounded-full flex items-center justify-center mb-4 shadow-inner">
+                            <i class="fas fa-shield-alt text-3xl"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2 text-white">Our Importance</h3>
+                        <p class="text-gray-400">This initiative is vital for creating a generation that is not only aware but also capable of acting decisively during an emergency, building a more resilient nation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Signs Section -->
+        <section id="signs" class="section hidden">
+            <h2 class="section-header text-white">Learn the Signs</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card text-center">
+                    <i class="fas fa-wind text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="font-bold text-2xl mb-2 text-white">Cyclones & Storms</h3>
+                    <p class="text-gray-400 text-lg">Pay attention to early warnings from the Indian Meteorological Department (IMD) and note the change in wind speed, atmospheric pressure, and heavy rainfall forecasts.</p>
+                </div>
+                <div class="card text-center">
+                    <i class="fas fa-exclamation-triangle text-4xl text-yellow-400 mb-4"></i>
+                    <h3 class="font-bold text-2xl mb-2 text-white">Earthquakes</h3>
+                    <p class="text-gray-400 text-lg">The primary sign is a sudden shaking or a strong rumble of the ground. The shaking may be gentle at first but can increase in intensity quickly.</p>
+                </div>
+                <div class="card text-center">
+                    <i class="fas fa-water text-4xl text-sky-400 mb-4"></i>
+                    <h3 class="font-bold text-2xl mb-2 text-white">Floods</h3>
+                    <p class="text-gray-400 text-lg">Flash floods are often preceded by heavy rainfall. Be aware of rising water levels in rivers, streams, and low-lying areas, and listen for official warnings.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency Section -->
+        <section id="emergency" class="section hidden">
+            <h2 class="section-header text-white">What to Do During an Emergency</h2>
+            <div class="card">
+                <p class="text-center text-lg mb-6 text-gray-300">Select a disaster to learn the step-by-step actions to take and what to include in your emergency kit.</p>
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <button class="disaster-btn bg-indigo-600 text-white font-semibold py-3 px-6 rounded-full shadow-md hover:bg-indigo-700 transition-colors" data-disaster="earthquake">Earthquake</button>
+                    <button class="disaster-btn bg-red-600 text-white font-semibold py-3 px-6 rounded-full shadow-md hover:bg-red-700 transition-colors" data-disaster="fire">Fire</button>
+                    <button class="disaster-btn bg-blue-600 text-white font-semibold py-3 px-6 rounded-full shadow-md hover:bg-blue-700 transition-colors" data-disaster="flood">Flood</button>
+                </div>
+                <div id="drill-content" class="bg-gray-700 p-6 rounded-2xl border border-gray-600">
+                    <p class="text-center text-gray-400">Select a disaster above to begin the mock drill.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency Kit Section -->
+        <section id="emergency-kit" class="section hidden">
+            <h2 class="section-header text-white">Build Your Emergency Kit</h2>
+            <div class="card">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="p-6 bg-gray-700 rounded-xl border border-gray-600 shadow-sm flex flex-col items-center text-center">
+                        <i class="fas fa-tint text-4xl text-blue-400 mb-4"></i>
+                        <h3 class="font-bold text-xl mb-2 text-white">Water & Food</h3>
+                        <p class="text-gray-400">Include a minimum of 1 gallon of water per person per day for at least 3 days. Also, pack non-perishable, easy-to-prepare food items.</p>
+                    </div>
+                    <div class="p-6 bg-gray-700 rounded-xl border border-gray-600 shadow-sm flex flex-col items-center text-center">
+                        <i class="fas fa-medkit text-4xl text-green-400 mb-4"></i>
+                        <h3 class="font-bold text-xl mb-2 text-white">First-Aid Supplies</h3>
+                        <p class="text-gray-400">A basic first-aid kit is essential. Include bandages, antiseptic wipes, pain relievers, and any personal medications you or your family need.</p>
+                    </div>
+                    <div class="p-6 bg-gray-700 rounded-xl border border-gray-600 shadow-sm flex flex-col items-center text-center">
+                        <i class="fas fa-lightbulb text-4xl text-yellow-400 mb-4"></i>
+                        <h3 class="font-bold text-xl mb-2 text-white">Tools & Lighting</h3>
+                        <p class="text-gray-400">Pack a flashlight with extra batteries, a hand-crank radio, and a multi-purpose tool. These are crucial for navigating during power outages.</p>
+                    </div>
+                    <div class="p-6 bg-gray-700 rounded-xl border border-gray-600 shadow-sm flex flex-col items-center text-center">
+                        <i class="fas fa-id-card text-4xl text-purple-400 mb-4"></i>
+                        <h3 class="font-bold text-xl mb-2 text-white">Documents & Cash</h3>
+                        <p class="text-gray-400">Keep copies of important documents like IDs, birth certificates, and insurance policies in a waterproof bag. Also, have some cash on hand.</p>
+                    </div>
+                    <div class="p-6 bg-gray-700 rounded-xl border border-gray-600 shadow-sm flex flex-col items-center text-center">
+                        <i class="fas fa-phone-alt text-4xl text-gray-400 mb-4"></i>
+                        <h3 class="font-bold text-xl mb-2 text-white">Communication</h3>
+                        <p class="text-gray-400">A charged power bank and a list of emergency contacts are vital for staying connected and seeking help when needed.</p>
+                    </div>
+                    <div class="p-6 bg-gray-700 rounded-xl border border-gray-600 shadow-sm flex flex-col items-center text-center">
+                        <i class="fas fa-tshirt text-4xl text-gray-400 mb-4"></i>
+                        <h3 class="font-bold text-xl mb-2 text-white">Clothing & Shelter</h3>
+                        <p class="text-gray-400">Include a change of clothes, sturdy shoes, and a blanket. A small tent or tarp can provide temporary shelter if necessary.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Past Incidents Section -->
+        <section id="past-incidents" class="section hidden">
+            <h2 class="section-header text-white">Lessons from the Past</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Bhuj Earthquake Card -->
+                <div class="card flex flex-col text-center">
+                    
+                    <h3 class="text-xl font-bold mb-2 text-white">2001 Bhuj Earthquake</h3>
+                    <p class="text-gray-400">This devastating seismic event underscored the critical need for resilient infrastructure and robust emergency response plans in educational institutions.</p>
+                </div>
+                <!-- Uttarakhand Floods Card -->
+                <div class="card flex flex-col text-center">
+                    
+                    <h3 class="text-xl font-bold mb-2 text-white">2013 Uttarakhand Floods</h3>
+                    <p class="text-gray-400">The tragedy of these flash floods highlighted the importance of real-time communication and swift evacuation strategies, especially in remote areas.</p>
+                </div>
+                <!-- Chennai Floods Card -->
+                <div class="card flex flex-col text-center">
+                    
+                    <h3 class="text-xl font-bold mb-2 text-white">2015 Chennai Floods</h3>
+                    <p class="text-gray-400">This event taught us about the need for community resilience and how preparedness can mitigate the impact of urban disasters on a large scale.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="section hidden">
+            <h2 class="section-header text-white">Test Your Knowledge</h2>
+            <div class="card">
+                <form id="quiz-form">
+                    <!-- Quiz questions will be dynamically added here by JavaScript -->
+                </form>
+                <div class="flex justify-center mt-8">
+                    <button id="submit-quiz-btn" class="bg-indigo-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-transform hover:scale-105 active:scale-100">
+                        Submit Quiz
+                    </button>
+                </div>
+                <div id="quiz-results" class="hidden mt-8 p-4 bg-gray-700 rounded-2xl border border-gray-600 text-center">
+                    <p id="quiz-score" class="text-2xl font-bold mb-2 text-white"></p>
+                    <p id="quiz-message" class="text-lg text-gray-300"></p>
+                </div>
+                <div id="certificate-container" class="hidden mt-8">
+                    <div id="certificate" class="text-center">
+                        <h2 class="text-3xl font-bold text-yellow-400 mb-2">Certificate of Preparedness</h2>
+                        <p class="text-lg text-gray-300 mb-4">This certificate is awarded to</p>
+                        <input type="text" id="cert-name-input" placeholder="Enter Your Name" class="text-2xl font-bold text-center bg-transparent border-b border-white text-white p-2 mb-6 focus:outline-none" />
+                        <p class="text-lg text-gray-300">For successfully completing the Disaster Preparedness Quiz with a perfect score.</p>
+                        <p class="text-sm text-gray-500 mt-4">Project Suraksha | Smart India Hackathon</p>
+                        <div class="certificate-ribbon"></div>
+                        <button id="download-cert-btn" class="bg-green-600 text-white font-semibold py-2 px-6 rounded-full mt-6 transition-transform hover:scale-105">
+                            Download Certificate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency Contacts Section -->
+        <section id="contacts" class="section hidden">
+            <h2 class="section-header text-white">Crucial Emergency Contacts</h2>
+            <div class="card">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="list-item">
+                        <i class="fas fa-fire-extinguisher text-red-400 text-2xl mr-4"></i>
+                        <div>
+                            <span class="font-bold text-white">Fire & Rescue Service:</span>
+                            <span class="block text-gray-300">101</span>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-ambulance text-green-400 text-2xl mr-4"></i>
+                        <div>
+                            <span class="font-bold text-white">Ambulance & Medical:</span>
+                            <span class="block text-gray-300">102 / 108</span>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-hands-helping text-blue-400 text-2xl mr-4"></i>
+                        <div>
+                            <span class="font-bold text-white">National Disaster Management Authority (NDMA) Helpline:</span>
+                            <span class="block text-gray-300">1070</span>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-users-cog text-purple-400 text-2xl mr-4"></i>
+                        <div>
+                            <span class="font-bold text-white">Civil Defence:</span>
+                            <span class="block text-gray-300">1072</span>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-map-marker-alt text-orange-400 text-2xl mr-4"></i>
+                        <div>
+                            <span class="font-bold text-white">Railway Accident Emergency:</span>
+                            <span class="block text-gray-300">1072</span>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <i class="fas fa-exclamation-circle text-yellow-400 text-2xl mr-4"></i>
+                        <div>
+                            <span class="font-bold text-white">National Emergency Number:</span>
+                            <span class="block text-gray-300">112</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Floating Chatbot Toggle Button -->
+    <div id="chat-toggle-btn" onclick="toggleChatbot()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M4.998 3.522a.75.75 0 0 0-.825.132l-1.353 1.34L3.633 6l-.283.472a1.875 1.875 0 0 0-.693 1.137l-.744 2.232a.75.75 0 0 0 1.298.59l.995-.828 1.05 1.05a.75.75 0 0 0 1.5 0l1.05-1.05.996.829a.75.75 0 0 0 1.298-.591l-.744-2.232a1.875 1.875 0 0 0-.693-1.137L9.366 6.471l-.547-.912c-.524-.873-.835-1.846-.835-2.863V3.75c0-.414.336-.75.75-.75h1.125c.414 0 .75.336.75.75v.203c0 .248.066.491.192.71l.666 1.111a.75.75 0 0 0 1.299-.59L11.758 4h-.001c-.414 0-.75-.336-.75-.75V3c0-.414.336-.75.75-.75h1.125c.414 0 .75.336.75.75v.203c0 .248.066.491.192.71l.666 1.111a.75.75 0 0 0 1.299-.59L15.373 4h-.002c-.414 0-.75-.336-.75-.75V3c0-.414.336-.75.75-.75h1.125c.414 0 .75.336.75.75v.203c0 .248.066.491.192.71l.666 1.111a.75.75 0 0 0 1.299-.59L19.373 4h-.002c-.414 0-.75-.336-.75-.75V3c0-.414.336-.75.75-.75h1.125c.414 0 .75.336.75.75v.203c0 .248.066.491.192.71l.666 1.111a.75.75 0 0 0 1.299-.59L23.373 4h-.002c-.414 0-.75-.336-.75-.75V3c0-.414.336-.75.75-.75h.392A.75.75 0 0 0 24 3.097V19.5c0 1.14-.383 2.193-1.028 3.044-.213.284-.447.545-.698.784a2.25 2.25 0 0 1-2.046 1.096h-14.73a2.25 2.25 0 0 1-2.046-1.096 1.125 1.125 0 0 0-.698-.784C.383 21.693 0 20.64 0 19.5V3.097A.75.75 0 0 0 .618 2.472Z" />
+        </svg>
+    </div>
+
+    <!-- Chatbot Modal -->
+    <div id="chat-modal">
+        <div class="p-4 flex flex-col h-full">
+            <!-- Chat Header -->
+            <div class="flex-shrink-0 bg-indigo-600 text-white p-4 rounded-t-2xl flex justify-between items-center shadow-md">
+                <h3 class="font-bold text-lg">AI Assistant</h3>
+                <button onclick="toggleChatbot()" class="p-1 rounded-full hover:bg-indigo-700 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Chat Messages Display Area -->
+            <div id="chat-container" class="chat-container flex-1 overflow-y-auto p-4 bg-gray-900 border-b border-l border-r border-gray-700 shadow-inner">
+                <div class="flex items-start mb-4">
+                    <div class="bg-gray-700 text-gray-200 p-3 rounded-2xl rounded-tl-none max-w-[80%] shadow-sm">
+                        <p>Hi! I'm an AI assistant for disaster preparedness. What would you like to know?</p>
+                    </div>
+                </div>
+            </div>
+            <!-- User Input Area -->
+            <div class="flex-shrink-0 flex items-center space-x-3 p-4 bg-gray-800 rounded-b-3xl">
+                <input type="text" id="chat-input" placeholder="Ask a question..." class="flex-1 p-3 rounded-full bg-gray-700 text-gray-200 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 text-sm">
+                <button id="send-btn" class="bg-indigo-600 text-white p-3 rounded-full hover:bg-indigo-700 transition-colors duration-200 shadow-lg active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white py-8 text-center rounded-t-3xl shadow-2xl mt-12">
+        <div class="container mx-auto px-6">
+            <p class="text-sm md:text-base text-gray-400">&copy; 2025 Smart India Hackathon. All rights reserved.</p>
+            <p class="text-sm md:text-base mt-2 text-gray-400">Designed for the Disaster Preparedness & Responsive Education System Project.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Navigation Logic ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.section');
+
+        function showSection(targetId) {
+            sections.forEach(section => {
+                section.classList.add('hidden'); // Hide all sections
+            });
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden'); // Show the target section
+            }
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.dataset.target;
+                showSection(targetId);
+            });
+        });
+
+        // Initially show the home section
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('home');
+        });
+
+        // --- Quiz Section ---
+        const quizQuestions = [
+            { question: "What is the first step you should take during an earthquake?", options: ["Run outside as fast as you can", "Drop, Cover, and Hold On", "Go to the highest floor", "Hide under your bed"], answer: "Drop, Cover, and Hold On" },
+            { question: "During a fire drill, where should you go?", options: ["To the cafeteria", "Back to your classroom", "To the nearest exit and designated assembly point", "To the principal's office"], answer: "To the nearest exit and designated assembly point" },
+            { question: "What should you NOT do during a flood?", options: ["Stay indoors on the highest ground", "Walk or drive through floodwaters", "Listen to emergency broadcasts", "Have an emergency kit ready"], answer: "Walk or drive through floodwaters" },
+            { question: "As a teacher, what is your primary responsibility during a school emergency?", options: ["To save yourself first", "To take attendance immediately", "To ensure all students are safe and accounted for", "To call parents right away"], answer: "To ensure all students are safe and accounted for" },
+            { question: "Why is it important to have a family emergency plan?", options: ["To have a fun activity", "To know how to contact each other and where to meet", "To get a day off from school", "It is not important"], answer: "To know how to contact each other and where to meet" }
+        ];
+        const quizForm = document.getElementById('quiz-form');
+        const submitBtn = document.getElementById('submit-quiz-btn');
+        const resultsDiv = document.getElementById('quiz-results');
+        const scorePara = document.getElementById('quiz-score');
+        const messagePara = document.getElementById('quiz-message');
+        const certificateContainer = document.getElementById('certificate-container');
+        const certNameInput = document.getElementById('cert-name-input');
+        const downloadCertBtn = document.getElementById('download-cert-btn');
+
+        function renderQuiz() {
+            quizQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('mb-6', 'p-4', 'bg-gray-700', 'rounded-xl', 'border', 'border-gray-600');
+                questionDiv.innerHTML = `<p class="text-xl font-medium mb-3 text-white">${index + 1}. ${q.question}</p><div class="space-y-2">${q.options.map(option => `<label class="flex items-center space-x-2 text-lg cursor-pointer"><input type="radio" name="question-${index}" value="${option}" class="w-4 h-4 text-indigo-500 bg-gray-800 border-gray-600 focus:ring-indigo-500 rounded-full"><span>${option}</span></label>`).join('')}</div>`;
+                quizForm.appendChild(questionDiv);
+            });
+        }
+        function checkQuiz() {
+            let score = 0;
+            let totalQuestions = quizQuestions.length;
+            quizQuestions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question-${index}"]:checked`);
+                if (selectedOption && selectedOption.value === q.answer) {
+                    score++;
+                }
+            });
+            resultsDiv.classList.remove('hidden');
+            scorePara.textContent = `Your Score: ${score} out of ${totalQuestions}`;
+            if (score === totalQuestions) {
+                messagePara.textContent = "Excellent! You are a disaster preparedness expert. You've earned a certificate!";
+                messagePara.classList.add('text-green-400');
+                messagePara.classList.remove('text-red-400', 'text-indigo-400');
+                certificateContainer.classList.remove('hidden');
+            } else if (score >= totalQuestions / 2) {
+                messagePara.textContent = "Good job! You have a solid understanding, but there's always more to learn.";
+                messagePara.classList.add('text-indigo-400');
+                messagePara.classList.remove('text-red-400', 'text-green-400');
+                certificateContainer.classList.add('hidden');
+            } else {
+                messagePara.textContent = "Keep learning! Review the information above to improve your knowledge.";
+                messagePara.classList.add('text-red-400');
+                messagePara.classList.remove('text-green-400', 'text-indigo-400');
+                certificateContainer.classList.add('hidden');
+            }
+        }
+        submitBtn.addEventListener('click', (e) => { e.preventDefault(); checkQuiz(); });
+        document.addEventListener('DOMContentLoaded', renderQuiz);
+
+        // --- Mock Drill Section ---
+        const disasterData = {
+            earthquake: {
+                title: "Earthquake Preparedness",
+                icon: "fas fa-house-damage",
+                steps: [
+                    { step: "Drop, Cover, and Hold On", description: "Immediately drop to the ground, take cover under a sturdy piece of furniture, and hold on until the shaking stops. If no shelter is nearby, drop to the floor next to an interior wall.", visual: '<i class="fas fa-arrow-down text-4xl text-indigo-400"></i>' },
+                    { step: "Stay Indoors", description: "Do not run outside during the shaking. Most injuries occur when people try to move or are hit by falling objects. Wait until it is safe to move.", visual: '<i class="fas fa-building text-4xl text-indigo-400"></i>' },
+                    { step: "Evacuate After Shaking Stops", description: "Once the ground stops shaking, calmly and safely exit the building and proceed to your designated assembly point.", visual: '<i class="fas fa-running text-4xl text-indigo-400"></i>' },
+                    { step: "Emergency Kit Essentials", description: "Your kit should contain non-perishable food, water, a flashlight, a portable radio with extra batteries, and a small first-aid kit.", visual: '<i class="fas fa-box text-4xl text-indigo-400"></i>' }
+                ]
+            },
+            fire: {
+                title: "Fire Preparedness",
+                icon: "fas fa-fire",
+                steps: [
+                    { step: "Sound the Alarm", description: "Alert everyone in the building by shouting 'Fire!' and pulling the nearest fire alarm to ensure everyone is aware of the danger.", visual: '<i class="fas fa-bell text-4xl text-red-400"></i>' },
+                    { step: "Follow the Evacuation Plan", description: "Use the designated escape routes and never use elevators. Stay low to the ground to avoid inhaling smoke.", visual: '<i class="fas fa-map-marked-alt text-4xl text-red-400"></i>' },
+                    { step: "Check Doors for Heat", description: "Before opening a door, feel the doorknob and the door itself with the back of your hand. If it's hot, do not open it. Find another way out.", visual: '<i class="fas fa-door-closed text-4xl text-red-400"></i>' },
+                    { step: "Proceed to Assembly Point", description: "Go directly to your pre-determined safe assembly point outside the building. Once outside, do not re-enter for any reason.", visual: '<i class="fas fa-users text-4xl text-red-400"></i>' }
+                ]
+            },
+            flood: {
+                title: "Flood Preparedness",
+                icon: "fas fa-water",
+                steps: [
+                    { step: "Move to High Ground", description: "If you are in a flood-prone area, move to the highest floor or a secure, elevated location immediately to stay above rising water.", visual: '<i class="fas fa-mountain text-4xl text-blue-400"></i>' },
+                    { step: "Never Drive or Walk Through Water", description: "Just six inches of fast-moving water can knock you down. Two feet can sweep a vehicle away. Turn around and find an alternate route.", visual: '<i class="fas fa-car-crash text-4xl text-blue-400"></i>' },
+                    { step: "Stay Informed", description: "Listen to emergency broadcasts and official warnings from authorities. Be prepared to follow evacuation orders if they are issued.", visual: '<i class="fas fa-broadcast-tower text-4xl text-blue-400"></i>' },
+                    { step: "Secure Your Belongings", description: "If time permits, move valuable documents and items to a higher location within your home to protect them from water damage.", visual: '<i class="fas fa-box-open text-4xl text-blue-400"></i>' }
+                ]
+            }
+        };
+
+        const disasterButtons = document.querySelectorAll('.disaster-btn');
+        const drillContent = document.getElementById('drill-content');
+
+        disasterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const disaster = button.dataset.disaster;
+                const data = disasterData[disaster];
+
+                let htmlContent = `
+                    <h3 class="text-2xl font-bold mb-6 text-center text-indigo-400">${data.title}</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        ${data.steps.map(step => `
+                            <div class="p-4 bg-gray-800 rounded-xl shadow-md text-center border border-gray-700">
+                                <div class="mb-4 text-4xl text-indigo-400">${step.visual}</div>
+                                <h4 class="font-bold text-lg mb-2 text-white">${step.step}</h4>
+                                <p class="text-sm text-gray-400">${step.description}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                drillContent.innerHTML = htmlContent;
+                
+            });
+        });
+        
+        // --- AI Chatbot Section ---
+        const chatModal = document.getElementById('chat-modal');
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const chatContainer = chatModal.querySelector('#chat-container');
+        const apiKey = "";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+        let chatHistory = [{
+            role: "model",
+            parts: [{ text: "Hi! I'm an AI assistant for disaster preparedness. What would you like to know?" }]
+        }];
+        const systemPrompt = "You are an AI assistant for students and teachers. Your purpose is to provide concise and accurate information about what to do before, during, and after various natural disasters and emergencies. Use a clear, encouraging, and helpful tone. Keep your responses focused on disaster preparedness and education. Respond to general queries as well in a concise and friendly manner.";
+
+        function toggleChatbot() {
+            chatModal.classList.toggle('active');
+        }
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('flex', 'mb-4');
+            if (sender === 'user') {
+                messageDiv.classList.add('justify-end');
+                messageDiv.innerHTML = `
+                    <div class="bg-indigo-500 text-white p-3 rounded-2xl rounded-br-none max-w-[80%] shadow-md">
+                        <p>${text}</p>
+                    </div>
+                `;
+            } else { // model
+                messageDiv.classList.add('justify-start');
+                messageDiv.innerHTML = `
+                    <div class="bg-gray-700 text-gray-200 p-3 rounded-2xl rounded-tl-none max-w-[80%] shadow-sm">
+                        <p>${text}</p>
+                    </div>
+                `;
+            }
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        async function getGeminiResponse(userMessage) {
+            const userPayload = {
+                role: "user",
+                parts: [{ text: userMessage }]
+            };
+            chatHistory.push(userPayload);
+            addMessage(userMessage, 'user');
+            
+            const thinkingDiv = document.createElement('div');
+            thinkingDiv.id = 'thinking-indicator';
+            thinkingDiv.classList.add('flex', 'justify-start', 'mb-4');
+            thinkingDiv.innerHTML = `<div class="bg-gray-700 text-gray-200 p-3 rounded-2xl rounded-tl-none max-w-[80%] shadow-sm animate-pulse"><p>AI is thinking...</p></div>`;
+            chatContainer.appendChild(thinkingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            try {
+                const payload = {
+                    contents: chatHistory,
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    tools: [{ "google_search": {} }]
+                };
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error("API Error:", errorData);
+                    throw new Error(`API returned status ${response.status}: ${JSON.stringify(errorData)}`);
+                }
+
+                const result = await response.json();
+                const aiMessage = result?.candidates?.[0]?.content?.parts?.[0]?.text || "I'm sorry, I couldn't process that request. Please try again.";
+                
+                chatHistory.push({ role: "model", parts: [{ text: aiMessage }] });
+                addMessage(aiMessage, 'model');
+            } catch (error) {
+                console.error("Error in getGeminiResponse:", error);
+                const errorMessage = "An error occurred. Please check your internet connection and try again.";
+                addMessage(errorMessage, 'model');
+            } finally {
+                const indicator = document.getElementById('thinking-indicator');
+                if (indicator) {
+                    indicator.remove();
+                }
+            }
+        }
+
+        function sendMessage() {
+            const userMessage = chatInput.value.trim();
+            if (userMessage === '') return;
+            getGeminiResponse(userMessage);
+            chatInput.value = '';
+        }
+
+        chatInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        sendBtn.addEventListener('click', sendMessage);
+    </script>
+</body>
+</html>
